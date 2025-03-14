@@ -11,7 +11,7 @@ import { createOnrampTransaciton } from "../app/lib/actions/createOnrampTransact
 const SUPPORTED_BANKS = [
     {
         name: "FakeBank",
-        redirectUrl: "http://localhost:3004"
+        redirectUrl: process.env.NEXTAUTH_URL
     }
 ];
 
