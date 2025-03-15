@@ -1,17 +1,21 @@
 "use client"
 
-import React from 'react';
-import { ArrowRight, Calendar, User, DollarSign } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { ArrowRight, Calendar, User, DollarSign, RefreshCw } from 'lucide-react';
 
-export const All_transactions = ({txns}: {
+export const All_transactions = ({txns: initialTxns}: {
     txns: {
-        time: Date,
-        from: number,
-        to: number,
+        timestamp: Date,
+        fromUserId: number,
+        toUserId: number,
         amount: number,
         id: number
     }[]
 }) => {
+    const [txns, setTxns] = useState(initialTxns);
+    const [isLoading, setIsLoading] = useState(false);
+    const [lastRefreshed, setLastRefreshed] = useState(new Date());
+
     const formatDate = (date: Date) => {
         return new Date(date).toLocaleDateString('en-US', {
             day: 'numeric',
@@ -21,14 +25,59 @@ export const All_transactions = ({txns}: {
         });
     };
 
+    const fetchLatestTransactions = async () => {
+        setIsLoading(true);
+        try {
+            const response = await fetch('/api/transactions');
+            if (!response.ok) {
+                throw new Error('Failed to fetch transactions');
+            }
+            const data = await response.json();
+            setTxns(data);
+            setLastRefreshed(new Date());
+        } catch (error) {
+            console.error('Error fetching transactions:', error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    // Auto-refresh every 30 seconds
+    useEffect(() => {
+        const interval = setInterval(() => {
+            fetchLatestTransactions();
+        }, 30000); // 30 seconds
+
+        return () => clearInterval(interval);
+    }, []);
+
+    // Also refresh on initial load
+    useEffect(() => {
+        fetchLatestTransactions();
+    }, []);
+
     return (
         <div className="h-full w-full">
             <div className="max-h-[80vh] relative overflow-y-auto border border-gray-200 rounded-xl flex flex-col bg-gray-50 shadow-sm">
                 <div className="sticky top-0 bg-white p-4 border-b border-gray-200 rounded-t-xl flex justify-between items-center">
                     <h2 className="text-lg font-semibold text-gray-800">All Users Transaction History</h2>
-                    <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-1 rounded-full">
-                        {txns.length} Transactions
-                    </span>
+                    <div className="flex items-center gap-3">
+                        <button 
+                            onClick={fetchLatestTransactions} 
+                            className="flex items-center gap-1 text-xs text-blue-600 hover:text-blue-800"
+                            disabled={isLoading}
+                        >
+                            <RefreshCw size={14} className={`${isLoading ? 'animate-spin' : ''}`} />
+                            Refresh
+                        </button>
+                        <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-1 rounded-full">
+                            {txns.length} Transactions
+                        </span>
+                    </div>
+                </div>
+                
+                <div className="px-4 pt-2 text-xs text-gray-500">
+                    Last updated: {formatDate(lastRefreshed)}
                 </div>
                 
                 {txns.length === 0 ? (
@@ -53,12 +102,12 @@ export const All_transactions = ({txns}: {
                                     <div>
                                         <div className="text-sm text-gray-500 mb-1">
                                             <Calendar size={14} className="inline mr-1" />
-                                            {formatDate(t.time)}
+                                            {formatDate(t.timestamp)}
                                         </div>
                                         <div className="flex items-center">
-                                            <span className="font-medium text-gray-800 mr-2">#{t.from}</span>
+                                            <span className="font-medium text-gray-800 mr-2">#{t.fromUserId}</span>
                                             <ArrowRight size={16} className="text-gray-400 mx-1" />
-                                            <span className="font-medium text-gray-800">#{t.to}</span>
+                                            <span className="font-medium text-gray-800">#{t.toUserId}</span>
                                         </div>
                                     </div>
                                 </div>

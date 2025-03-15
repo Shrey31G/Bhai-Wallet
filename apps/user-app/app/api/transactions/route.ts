@@ -1,33 +1,45 @@
-// app/api/transactions/route.ts
-import { NextResponse } from 'next/server';
-import { getServerSession } from "next-auth";
-import { authOptions } from "../../lib/auth";
-import prisma from "@repo/db/client";
 
-export async function GET() {
+import { NextResponse } from 'next/server';
+import prisma from '@repo/db/client';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '../../lib/auth';
+
+
+export async function GET(request: Request) {
   try {
+
     const session = await getServerSession(authOptions);
-    
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
+    if (!session || !session.user) {
+     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
-    
-    const txns = await prisma.onRampTransaction.findMany({
-      where: {
-        userId: Number(session.user.id)
+
+    const transactions = await prisma.p2pTransfer.findMany({
+      orderBy: {
+        timestamp: 'desc'
+      },
+      take: 100, 
+      include: {
+        fromUser: {
+          select: {
+            name: true,
+            number: true
+          }
+        },
+        toUser: {
+          select: {
+            name: true,
+            number: true
+          }
+        }
       }
     });
 
-    const transactions = txns.map(t => ({
-      time: t.startTime,
-      amount: t.amount,
-      status: t.status,
-      provider: t.provider
-    })).reverse();
-
-    return NextResponse.json({ transactions });
+    return NextResponse.json(transactions);
   } catch (error) {
     console.error('Error fetching transactions:', error);
-    return NextResponse.json({ error: 'Failed to fetch transactions' }, { status: 500 });
+    return NextResponse.json(
+      { message: 'Error fetching transactions' },
+      { status: 500 }
+    );
   }
 }
