@@ -10,6 +10,9 @@
   "deploy": "vercel deploy --prod"
 },
   "dependencies": {
+    "@prisma/client": "^6.4.1",
+    "@repo/store": "*",
+    "@repo/ui": "*",
     "@repo/db": "*",
     "zod": "^3.24.2"
   },
