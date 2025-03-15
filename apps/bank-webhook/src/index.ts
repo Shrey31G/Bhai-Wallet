@@ -24,6 +24,8 @@ async function handleWebhook(req: Request, res: Response) {
         res.status(400).json({ message: "Invalid input format", errors: parsed.error.errors });
         return;
     }
+    
+    console.log('Received webhook request:', req.body);
 
     const paymentInformation: {
         token: string;

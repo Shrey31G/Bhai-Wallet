@@ -31,8 +31,9 @@ export async function POST(request: Request) {
 
     processedTokens.add(token);
     
-    const webhookUrl = process.env.WEBHOOK_URL || "";
-    const webhookResponse = await fetch(webhookUrl, {
+    console.log('Sending request to webhook:', process.env.WEBHOOK_URL);
+
+    const webhookResponse = await fetch(process.env.WEBHOOK_URL || "", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -40,7 +41,7 @@ export async function POST(request: Request) {
       body: JSON.stringify({
         token,
         userId,
-        amount: (paymentAmount * 100).toString() 
+        amount: (paymentAmount * 100).toString()
       }),
     });
 
@@ -48,11 +49,11 @@ export async function POST(request: Request) {
 
       bankBalance += paymentAmount;
       processedTokens.delete(token);
-      
+
       const errorData = await webhookResponse.json();
-      return NextResponse.json({ 
-        message: 'Payment webhook failed', 
-        error: errorData 
+      return NextResponse.json({
+        message: 'Payment webhook failed',
+        error: errorData
       }, { status: 500 });
     }
 
@@ -65,8 +66,8 @@ export async function POST(request: Request) {
 
   } catch (error) {
     console.error('Payment processing error:', error);
-    return NextResponse.json({ 
-      message: 'Internal server error' 
+    return NextResponse.json({
+      message: 'Internal server error'
     }, { status: 500 });
   }
 }
