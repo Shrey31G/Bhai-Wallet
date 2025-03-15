@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "description": "Payment webhook API for processing transactions",
   "scripts": {
-    "dev": "vercel dev",
-    "build": "tsc",
-    "lint": "eslint .",
-    "check-types": "tsc --noEmit",
-    "deploy": "vercel deploy --prod"
-  },
+  "dev": "vercel dev",
+  "build": "npm install && tsc",
+  "lint": "eslint .",
+  "check-types": "tsc --noEmit",
+  "deploy": "vercel deploy --prod"
+},
   "dependencies": {
     "@repo/db": "*",
     "zod": "^3.24.2"
