@@ -7,7 +7,13 @@ import cors from "cors";
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+
+app.use(cors({
+    origin: ['https://bhai-wallet-fake-bank.vercel.app', 'http://localhost:3004'],
+    methods: ['POST'],
+    credentials: true
+}));
+
 const PaymentSchema = z.object({
     token: z.string(),
     userId: z.string(),
@@ -24,7 +30,7 @@ async function handleWebhook(req: Request, res: Response) {
         res.status(400).json({ message: "Invalid input format", errors: parsed.error.errors });
         return;
     }
-    
+
     console.log('Received webhook request:', req.body);
 
     const paymentInformation: {
@@ -92,10 +98,11 @@ async function handleWebhook(req: Request, res: Response) {
             message: "Payment processed successfully",
             token: paymentInformation.token
         });
-    } catch (error) {
-        console.error(error);
+    } catch (error: any) {
+        console.error('Detailed webhook error:', error);
         res.status(500).json({
-            message: "Error while processing webhook"
+            message: "Error while processing webhook",
+            error: error.message
         });
     }
 }
