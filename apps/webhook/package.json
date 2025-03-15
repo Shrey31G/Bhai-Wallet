@@ -10,7 +10,8 @@
     "deploy": "vercel deploy --prod"
   },
   "dependencies": {
-    "@repo/db": "*"
+    "@repo/db": "*",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@types/node": "^20.10.0",
