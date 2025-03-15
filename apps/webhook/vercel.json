@@ -1,19 +1,21 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "api/**/*.ts",
-        "use": "@vercel/node"
-      }
-    ],
-    "routes": [
-      {
-        "src": "/api/webhook/payment",
-        "dest": "/api/webhook/payment.ts"
-      },
-      {
-        "src": "/api/health",
-        "dest": "/api/health.ts"
-      }
-    ]
-  }
+  "version": 2,
+  "buildCommand": "cd apps/webhook && tsc",
+  "outputDirectory": "apps/webhook/dist",
+  "builds": [
+    {
+      "src": "apps/webhook/api/**/*.ts",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/webhook/payment",
+      "dest": "/apps/webhook/api/webhook/payment.ts"
+    },
+    {
+      "src": "/api/health",
+      "dest": "/apps/webhook/api/health.ts"
+    }
+  ]
+}
