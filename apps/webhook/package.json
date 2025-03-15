@@ -4,7 +4,7 @@
   "description": "Payment webhook API for processing transactions",
   "scripts": {
   "dev": "vercel dev",
-  "build": "npm install && tsc",
+  "build": "cd ../.. && npm install && npm run build -- --filter=webhook-api && tsc",
   "lint": "eslint .",
   "check-types": "tsc --noEmit",
   "deploy": "vercel deploy --prod"

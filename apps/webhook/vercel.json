@@ -1,6 +1,7 @@
 {
   "version": 2,
-  "buildCommand": "tsc",
+  "workspaceRoot": "../..",
+  "buildCommand": "cd ../.. && npm install && npm run build -- --filter=webhook-api",
   "outputDirectory": "dist",
   "builds": [
     {
