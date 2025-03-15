@@ -30,7 +30,7 @@ export async function POST(request: Request) {
     bankBalance -= paymentAmount;
 
     processedTokens.add(token);
-    
+
     console.log('Sending request to webhook:', process.env.WEBHOOK_URL);
 
     const webhookResponse = await fetch(process.env.WEBHOOK_URL || "", {
