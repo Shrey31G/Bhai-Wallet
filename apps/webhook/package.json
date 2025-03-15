@@ -7,7 +7,8 @@
   "build": "cd ../.. && npm install && npm run build -- --filter=webhook-api && tsc",
   "lint": "eslint .",
   "check-types": "tsc --noEmit",
-  "deploy": "vercel deploy --prod"
+  "deploy": "vercel deploy --prod",
+  "vercel-build": "npm install --filter=@repo/db && npm build"
 },
   "dependencies": {
     "@prisma/client": "^6.4.1",

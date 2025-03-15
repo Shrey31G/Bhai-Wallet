@@ -1,7 +1,6 @@
 {
   "version": 2,
-  "workspaceRoot": "../..",
-  "buildCommand": "cd ../.. && npm install && npm run build -- --filter=webhook-api",
+  "buildCommand": "npm install && npm --filter=@repo/db build && npm run build",
   "outputDirectory": "dist",
   "builds": [
     {
@@ -13,10 +12,6 @@
     {
       "src": "/api/webhook/payment",
       "dest": "api/webhook/payment.ts"
-    },
-    {
-      "src": "/api/health",
-      "dest": "api/health.ts"
     }
   ]
 }
