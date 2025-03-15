@@ -22,6 +22,7 @@ export const AddMoney = () => {
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
 
+    
     const handleAddMoney = async () => {
         setError(null);
         if (!value.trim() || isNaN(Number(value)) || Number(value) <= 0) {
