@@ -11,11 +11,11 @@
   "routes": [
     {
       "src": "/api/webhook/payment",
-      "dest": "/apps/webhook/api/webhook/payment.ts"
+      "dest": "apps/webhook/api/webhook/payment.ts"
     },
     {
       "src": "/api/health",
-      "dest": "/apps/webhook/api/health.ts"
+      "dest": "apps/webhook/api/health.ts"
     }
   ]
 }
