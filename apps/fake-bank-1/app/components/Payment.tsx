@@ -12,7 +12,7 @@ export default function Payment() {
   const [success, setSuccess] = useState(false);
   const [bankBalance, setBankBalance] = useState(100000000);
   const [transactionDetails, setTransactionDetails] = useState<TransactionResult | null>(null);
-  
+
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
   const userId = searchParams.get('userId');
@@ -37,7 +37,7 @@ export default function Payment() {
     }
 
     const paymentAmount = Number(amount);
-    
+
     if (paymentAmount > bankBalance) {
       setError("Insufficient funds in the bank");
       return;
@@ -95,13 +95,13 @@ export default function Payment() {
             <p className="text-sm text-green-600">Receipt ID: {transactionDetails.transactionId}</p>
           )}
         </div>
-        <button 
+        <button
           onClick={() => {
             if (window.opener && !window.opener.closed) {
               window.opener.postMessage('payment_completed', '*');
             }
             window.close();
-          }} 
+          }}
           className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 shadow-md"
         >
           Close Window
@@ -118,16 +118,12 @@ export default function Payment() {
             {error}
           </div>
         )}
-        
+
         <div className="mb-6">
           <p className="text-gray-700 mb-2">Requested Amount:</p>
-          <TextInput
-            placeholder="Enter amount"
-            label="Payment Amount (₹)"
-            value={amount}
-            onChange={(val) => setAmount(val)}
-            type="number"
-          />
+          <div className="bg-gray-50 border border-gray-500 text-gray-900 text-sm rounded-lg p-2.5">
+            {amount}
+          </div>
         </div>
 
         <div className="mb-4">
@@ -138,7 +134,7 @@ export default function Payment() {
           </div>
         </div>
 
-        <button 
+        <button
           onClick={handlePayment}
           disabled={loading}
           className={`w-full ${loading ? 'bg-gray-400' : 'bg-purple-600 hover:bg-purple-700'} text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 shadow-md`}
