@@ -144,4 +144,6 @@ async function handleWebhook(req: Request, res: Response) {
   }
 }
 
+app.listen(3000)
+
 export default app;

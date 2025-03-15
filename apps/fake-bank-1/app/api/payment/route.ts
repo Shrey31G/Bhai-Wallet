@@ -44,7 +44,7 @@ export async function POST(request: Request) {
         body: JSON.stringify({
           token,
           userId,
-          amount: paymentAmount.toString() 
+          amount: (paymentAmount * 100).toString() 
         }),
       });
       
