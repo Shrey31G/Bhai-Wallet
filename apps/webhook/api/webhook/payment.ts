@@ -15,17 +15,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(405).json({ message: 'Method not allowed' });
   }
 
-  console.log('Received webhook request:', JSON.stringify(req.body));
-
   try {
+    console.log('Received webhook request:', JSON.stringify(req.body));
+
     const parsed = PaymentSchema.safeParse(req.body);
     if (!parsed.success) {
-      console.error('Validation error:', parsed.error.errors);
       return res.status(400).json({ message: "Invalid input format", errors: parsed.error.errors });
     }
 
     const { token, userId, amount } = parsed.data;
-
 
     if (processedTokens.has(token)) {
       return res.status(400).json({ message: 'Transaction already processed' });
@@ -39,7 +37,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     });
 
     if (!existingTransaction) {
-      console.error('Transaction not found:', token);
       return res.status(400).json({ message: "Transaction not found" });
     }
 
@@ -49,19 +46,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const isAmountMatch = amountDifference < 1; 
 
     if (existingTransaction.userId !== webhookUserId || !isAmountMatch) {
-      console.error('Transaction mismatch:', {
-        expected: { userId: existingTransaction.userId, amount: existingTransaction.amount },
-        received: { userId: webhookUserId, amount: paymentAmount }
-      });
       return res.status(400).json({ message: "Transaction details mismatch" });
     }
 
     if (existingTransaction.status === "Success") {
-      console.log('Transaction already processed:', token);
       return res.status(200).json({ message: "Transaction already processed" });
     }
-
-    console.log('Updating balance and marking transaction as successful');
 
     await prisma.$transaction([
       prisma.balance.upsert({
@@ -76,16 +66,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     ]);
 
     processedTokens.add(token);
-
-    console.log('Transaction completed successfully');
-
-    return res.status(200).json({
-      message: "Payment processed successfully",
-      token
-    });
+    return res.status(200).json({ message: "Payment processed successfully", token });
 
   } catch (error: any) {
-    console.error('Webhook handler error:', error);
     return res.status(500).json({ message: "Internal server error", error: error.message });
   }
 }
