@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "npm install && npm --filter=@repo/db build && npm run build",
+  "buildCommand": "npm install && npm run build",
   "outputDirectory": "dist",
   "builds": [
     {
@@ -12,6 +12,10 @@
     {
       "src": "/api/webhook/payment",
       "dest": "api/webhook/payment.ts"
+    },
+    {
+      "src": "/api/health",
+      "dest": "api/health.ts"
     }
   ]
 }

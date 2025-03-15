@@ -1,14 +1,9 @@
 {
   "name": "webhook-api",
   "version": "1.0.0",
-  "description": "Payment webhook API for processing transactions",
   "scripts": {
-  "dev": "vercel dev",
-  "build": "cd ../.. && npm install && npm run build -- --filter=webhook-api && tsc",
-  "lint": "eslint .",
-  "check-types": "tsc --noEmit",
-  "deploy": "vercel deploy --prod",
-  "vercel-build": "npm install --filter=@repo/db && npm build"
+    "build": "tsc",
+    "vercel-build": "npm install --filter=@repo/db && npm run build"
 },
   "dependencies": {
     "@prisma/client": "^6.4.1",
