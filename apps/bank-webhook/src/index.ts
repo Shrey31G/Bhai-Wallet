@@ -6,11 +6,7 @@ import cors from "cors";
 const app = express();
 
 app.use(express.json());
-app.use(cors({
-  origin: ['https://bhai-wallet-fake-bank.vercel.app', 'http://localhost:3004'],
-  methods: ['POST'],
-  credentials: true 
-}));
+app.use(cors());
 
 const PaymentSchema = z.object({
   token: z.string(),
@@ -54,10 +50,15 @@ async function handleWebhook(req: Request, res: Response) {
       
       console.log('Found existing transaction:', existingTransaction);
       
-
-      const webhookAmount = Number(paymentInformation.amount);
-      const webhookUserId = Number(paymentInformation.userId);
+      const webhookAmount = parseFloat(paymentInformation.amount) / 100; 
+      const webhookUserId = parseInt(paymentInformation.userId, 10);
       
+      console.log('Normalized values for comparison:', {
+        webhookAmount,
+        webhookUserId,
+        existingAmount: existingTransaction.amount,
+        existingUserId: existingTransaction.userId
+      });
 
       const amountDifference = Math.abs(existingTransaction.amount - webhookAmount);
       const isAmountMatch = amountDifference < 1; 
@@ -71,6 +72,7 @@ async function handleWebhook(req: Request, res: Response) {
           webhookUserId,
           existingAmount: existingTransaction.amount,
           webhookAmount,
+          difference: amountDifference
         });
         res.status(400).json({ 
           message: "Transaction details mismatch",
@@ -80,7 +82,8 @@ async function handleWebhook(req: Request, res: Response) {
           },
           received: {
             userId: webhookUserId,
-            amount: webhookAmount
+            amount: webhookAmount,
+            originalAmount: paymentInformation.amount
           }
         });
         return;
@@ -101,12 +104,12 @@ async function handleWebhook(req: Request, res: Response) {
           },
           update: {
             amount: {
-              increment: webhookAmount
+              increment: webhookAmount 
             }
           },
           create: {
             userId: webhookUserId,
-            amount: webhookAmount,
+            amount: webhookAmount * 100, 
             locked: 0
           }
         }),
@@ -143,7 +146,5 @@ async function handleWebhook(req: Request, res: Response) {
     });
   }
 }
-
-app.listen(3000)
 
 export default app;

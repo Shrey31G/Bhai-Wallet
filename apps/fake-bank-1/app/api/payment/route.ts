@@ -36,16 +36,20 @@ export async function POST(request: Request) {
     }
     
     try {
+
+      const webhookData = {
+        token,
+        userId,
+        amount: (paymentAmount * 100).toString() 
+      };
+      console.log('Sending webhook data:', webhookData);
+      
       const webhookResponse = await fetch(process.env.WEBHOOK_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          token,
-          userId,
-          amount: (paymentAmount * 100).toString() 
-        }),
+        body: JSON.stringify(webhookData),
       });
       
       console.log('Webhook status:', webhookResponse.status);
@@ -60,7 +64,6 @@ export async function POST(request: Request) {
       }
       
       if (!webhookResponse.ok) {
-
         bankBalance += paymentAmount;
         processedTokens.delete(token);
         
@@ -79,8 +82,6 @@ export async function POST(request: Request) {
       });
       
     } catch (fetchError) {
-
-
       bankBalance += paymentAmount;
       processedTokens.delete(token);
       
