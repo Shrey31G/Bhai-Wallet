@@ -1,6 +1,5 @@
 "use client";
 
-import { TextInput } from "@repo/ui/TextInput";
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { TransactionResult } from "../lib/types";
