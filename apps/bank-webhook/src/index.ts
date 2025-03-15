@@ -98,6 +98,4 @@ async function handleWebhook(req: Request, res: Response) {
     }
 }
 
-app.listen(3003, () => {
-    console.log("Server running on port: 3003");
-});
+export default app;
