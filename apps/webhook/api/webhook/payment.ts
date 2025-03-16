@@ -9,7 +9,7 @@ const PaymentSchema = z.object({
   amount: z.string()
 });
 
-const processedTokens = new Set<string>();
+
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') {
@@ -25,10 +25,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     const { token, userId, amount } = parsed.data;
-
-    if (processedTokens.has(token)) {
-      return res.status(400).json({ message: 'Transaction already processed' });
-    }
 
     const paymentAmount = parseFloat(amount) / 100;
     const webhookUserId = parseInt(userId, 10);
@@ -66,7 +62,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       })
     ]);
 
-    processedTokens.add(token);
     return res.status(200).json({ message: "Payment processed successfully", token });
 
   } catch (error: any) {
