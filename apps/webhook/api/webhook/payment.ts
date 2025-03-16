@@ -1,6 +1,7 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
-import prisma from "@repo/db/client";
+
 import { z } from "zod";
+import prisma from '../../prisma/client';
 
 const PaymentSchema = z.object({
   token: z.string(),
@@ -72,3 +73,4 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(500).json({ message: "Internal server error", error: error.message });
   }
 }
+

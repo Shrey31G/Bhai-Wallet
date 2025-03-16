@@ -1,21 +1,21 @@
 {
-  "version": 2,
-  "buildCommand": "npm install && npm run build",
-  "outputDirectory": "dist",
-  "builds": [
-    {
-      "src": "api/**/*.ts",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/webhook/payment",
-      "dest": "api/webhook/payment.ts"
-    },
-    {
-      "src": "/api/health",
-      "dest": "api/health.ts"
-    }
-  ]
-}
+    "version": 2,
+    "buildCommand": "npm run build",
+    "installCommand": "npm install && npx prisma generate",
+    "builds": [
+      {
+        "src": "api/**/*.ts",
+        "use": "@vercel/node"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/api/webhook/payment",
+        "dest": "api/webhook/payment.ts"
+      },
+      {
+        "src": "/api/health",
+        "dest": "api/health.ts"
+      }
+    ]
+  }

@@ -8,8 +8,12 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "paths": {
+      "*": ["node_modules/*"]
+    }
   },
-  "include": ["api/**/*"],
+  "include": ["api/**/*", "prisma/**/*"],
   "exclude": ["node_modules"]
 }
