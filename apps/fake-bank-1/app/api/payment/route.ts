@@ -35,10 +35,11 @@ export async function POST(request: Request) {
     }
 
     try {
+
       const webhookData = {
         token,
         userId,
-        amount: String(paymentAmount * 100) 
+        amount: String(paymentAmount)
       };
 
       console.log('Sending webhook data:', webhookData);

@@ -1,5 +1,4 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
-
 import { z } from "zod";
 import prisma from '../../prisma/client';
 
@@ -8,8 +7,6 @@ const PaymentSchema = z.object({
   userId: z.string(),
   amount: z.string()
 });
-
-
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') {
@@ -26,7 +23,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const { token, userId, amount } = parsed.data;
 
-    const paymentAmount = parseFloat(amount) / 100;
+    const paymentAmount = parseInt(amount, 10);
     const webhookUserId = parseInt(userId, 10);
 
     const existingTransaction = await prisma.onRampTransaction.findUnique({
@@ -38,12 +35,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     console.log('Found transaction:', existingTransaction);
+    console.log('Comparing: DB amount:', existingTransaction.amount, 'Webhook amount:', paymentAmount);
 
-    const amountDifference = Math.abs(existingTransaction.amount - paymentAmount);
-    const isAmountMatch = amountDifference < 1; 
+ 
+    const isAmountMatch = existingTransaction.amount === paymentAmount;
 
     if (existingTransaction.userId !== webhookUserId || !isAmountMatch) {
-      return res.status(400).json({ message: "Transaction details mismatch" });
+      return res.status(400).json({ 
+        message: "Transaction details mismatch",
+        details: {
+          userIdMatch: existingTransaction.userId === webhookUserId,
+          amountMatch: isAmountMatch,
+          expectedAmount: existingTransaction.amount,
+          receivedAmount: paymentAmount
+        }
+      });
     }
 
     if (existingTransaction.status === "Success") {
@@ -54,7 +60,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       prisma.balance.upsert({
         where: { userId: webhookUserId },
         update: { amount: { increment: paymentAmount } },
-        create: { userId: webhookUserId, amount: paymentAmount * 100, locked: 0 }
+        create: { userId: webhookUserId, amount: paymentAmount, locked: 0 }
       }),
       prisma.onRampTransaction.update({
         where: { id: existingTransaction.id },
@@ -65,7 +71,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(200).json({ message: "Payment processed successfully", token });
 
   } catch (error: any) {
+    console.error("Payment webhook error:", error);
     return res.status(500).json({ message: "Internal server error", error: error.message });
   }
 }
-
