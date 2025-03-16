@@ -11,7 +11,7 @@ export default function Layout({
             <div className="md:relative md:h-full md:col-span-2 xl:col-span-1  fixed bottom-0 left-0 w-full flex md:flex-col flex-row justify-between md:items-left items-center md:items-start md:border-r border-t md:border-t-0 border-slate-400  bg-white md:overflow-y-auto p-4 z-10">
                 <div className="flex md:flex-col md:gap-10 w-full justify-between md:items-left md:pt-20  ">
                     <SidebarItem href={"/dashboard"} icon={<HomeIcon />} title="Home"></SidebarItem>
-                    <SidebarItem href={"/deposit"} icon={<Deposit />} title="Deposit" />
+                    <SidebarItem href={"/deposit"} icon={<TransferIcon />} title="Deposit" />
                     <SidebarItem href={"/transactions"} icon={<TransactionsIcon />} title="Transations" />
                     <SidebarItem href={"/P2P"} icon={<P2pLine />}  title="P2P Transfer"/>
                 </div>
@@ -56,9 +56,4 @@ function P2pLine(props: any) {
     )
 }
 
-function Deposit() {
-    return (
-        <i  className='fas h-7 w-7 md:w-6 md:h-6'>&#xf4d3;</i>
-    );
-  }
-  
+
