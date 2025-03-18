@@ -42,16 +42,16 @@ export const All_transactions = ({txns: initialTxns}: {
         }
     };
 
-    // Auto-refresh every 30 seconds
+
     useEffect(() => {
         const interval = setInterval(() => {
             fetchLatestTransactions();
-        }, 30000); // 30 seconds
+        }, 30000); 
 
         return () => clearInterval(interval);
     }, []);
 
-    // Also refresh on initial load
+
     useEffect(() => {
         fetchLatestTransactions();
     }, []);

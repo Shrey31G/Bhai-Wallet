@@ -109,7 +109,7 @@ export const OnRampTransaction = ({
       <div className="max-h-[60vh] overflow-hidden flex flex-col">
         <div className="flex justify-between items-center p-4 border-b border-gray-200">
           <div className="flex items-center">
-            <ArrowDownCircle className="h-5 w-5 mr-2 text-purple-600" />
+            <ArrowDownCircle className="h-5 w-5 mr-2 text-gray-800" />
             <h2 className="text-lg font-semibold text-gray-800">Transaction History</h2>
           </div>
           {loading && (

@@ -40,7 +40,7 @@ export default async function() {
  
     return (
         <div className="w-full max-w-full p-4 min-h-screen">
-            <div className="text-4xl font-extrabold text-[#6a51a6] pt-8 mb-8 ml-5">
+            <div className="text-4xl font-extrabold text-black pt-8 mb-8 ml-5">
                 Deposit
             </div>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 flex-1 p-4">

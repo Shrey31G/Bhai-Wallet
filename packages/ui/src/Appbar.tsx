@@ -21,28 +21,30 @@ export const Appbar = ({ user, onSignin, onSignout }: AppbarProps) => {
     <div className="sticky top-0 z-50 bg-white shadow-md">
       <div className=" mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          <div 
+          <div
             className="flex items-center cursor-pointer"
             onClick={() => router.push("/dashboard")}
           >
-            <div className="flex-shrink-0">
-              <div className="h-10 w-10 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 flex items-center justify-center">
-                <Wallet className="h-6 w-6 text-white" />
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <div className="h-10 w-10 rounded-full bg-gradient-to-br from-[#2979FF] to-[#0D47A1] flex items-center justify-center shadow-md border border-[#90CAF9] transform hover:scale-105 transition-all duration-300">
+                  <Wallet className="h-6 w-6 text-white drop-shadow-sm" />
+                </div>
               </div>
-            </div>
-            <div className="ml-3 font-bold text-xl text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600">
-              Bhai Wallet
+              <div className="ml-3 font-bold text-xl text-transparent bg-clip-text bg-gradient-to-r from-[#2979FF] via-[#1976D2] to-[#4FC3F7] tracking-wide">
+                PayHaven
+              </div>
             </div>
           </div>
 
 
           <div className="hidden md:flex items-center space-x-4">
             {user?.name && (
-              <div className="text-gray-700 px-3 py-1 rounded-full bg-gray-100">
+              <div className="text-black px-3 py-1 rounded-full bg-white border border-[#0a2351]">
                 Welcome {user.name}
               </div>
             )}
-            <Button 
+            <Button
               onClick={user ? onSignout : onSignin}
             >
               {user ? (
@@ -82,7 +84,7 @@ export const Appbar = ({ user, onSignin, onSignout }: AppbarProps) => {
                 Welcome, {user.name}
               </div>
             )}
-            <Button 
+            <Button
               onClick={user ? onSignout : onSignin}
             >
               {user ? (

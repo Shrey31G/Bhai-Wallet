@@ -62,21 +62,21 @@ export const BalanceCard = ({
 
   return (
     <Card title="Balance Overview">
-      <div className="p-4 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-lg">
+      <div className="p-4 bg-gradient-to-r from-[#89CFF0] to-white rounded-lg">
         <div className="mb-4 flex items-center justify-between">
           <div className="flex items-center">
-            <div className="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mr-3">
-              <Wallet className="h-6 w-6 text-purple-600" />
+            <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center mr-3">
+              <Wallet className="h-6 w-6 text-black" />
             </div>
             <div>
-              <div className="text-sm text-gray-500">Total Balance</div>
-              <div className="text-2xl font-bold text-purple-700">
+              <div className="text-sm text-gray-700">Total Balance</div>
+              <div className="text-2xl font-bold text-[#002D62]">
                 {formatCurrency(totalBalance)}
               </div>
             </div>
           </div>
           {loading && (
-            <div className="flex items-center text-sm text-purple-600 bg-purple-50 px-3 py-1 rounded-full">
+            <div className="flex items-center text-sm text-[#002D62] bg-purple-50 px-3 py-1 rounded-full">
               <RefreshCw className="h-3 w-3 mr-1 animate-spin" />
               Updating...
             </div>
@@ -98,7 +98,7 @@ export const BalanceCard = ({
             <div className="flex items-center">
               <div className="text-gray-700">Locked Balance</div>
             </div>
-            <div className="font-semibold text-amber-600">
+            <div className="font-semibold text-[#850101]">
               {formatCurrency(balance.locked)}
             </div>
           </div>
@@ -106,7 +106,7 @@ export const BalanceCard = ({
 
         <div className="mt-4 pt-3 border-t border-gray-200">
           <div className="flex justify-between items-center">
-            <div className="text-sm text-gray-500">Available for withdrawal</div>
+            <div className="text-sm text-gray-700">Available for withdrawal</div>
             <div className="font-medium text-green-600">{formatCurrency(balance.amount)}</div>
           </div>
         </div>

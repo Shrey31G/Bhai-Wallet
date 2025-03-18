@@ -111,7 +111,7 @@ export const AddMoney = () => {
                             </div>
                             <div className="flex justify-between font-medium">
                                 <span>Total amount</span>
-                                <span className="text-purple-700">{value ? `₹${Number(value).toFixed(2)}` : '₹0.00'}</span>
+                                <span className="text-[#002D62]">{value ? `₹${Number(value).toFixed(2)}` : '₹0.00'}</span>
                             </div>
                         </div>
                     </div>
