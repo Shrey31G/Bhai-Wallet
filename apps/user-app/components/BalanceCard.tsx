@@ -98,7 +98,7 @@ export const BalanceCard = ({
             <div className="flex items-center">
               <div className="text-gray-700">Locked Balance</div>
             </div>
-            <div className="font-semibold text-[#850101]">
+            <div className="font-semibold text-[]">
               {formatCurrency(balance.locked)}
             </div>
           </div>

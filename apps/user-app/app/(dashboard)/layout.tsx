@@ -12,7 +12,7 @@ export default function Layout({
                 <div className="flex md:flex-col md:gap-10 w-full justify-between md:items-left md:pt-20  ">
                     <SidebarItem href={"/dashboard"} icon={<HomeIcon />} title="Home"></SidebarItem>
                     <SidebarItem href={"/deposit"} icon={<TransferIcon />} title="Deposit" />
-                    <SidebarItem href={"/transactions"} icon={<TransactionsIcon />} title="Transations" />
+                    <SidebarItem href={"/transactions"} icon={<TransactionsIcon />} title="Transactions" />
                     <SidebarItem href={"/P2P"} icon={<P2pLine />}  title="P2P Transfer"/>
                 </div>
             </div>
